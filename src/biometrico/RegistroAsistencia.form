@@ -55,9 +55,9 @@
                       <Component id="jPanel3" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                          <Component id="jButton1" min="-2" pref="287" max="-2" attributes="0"/>
+                          <Component id="jbtnMarcarAsistencia" min="-2" pref="287" max="-2" attributes="0"/>
                           <EmptySpace pref="79" max="32767" attributes="0"/>
-                          <Component id="jButton2" min="-2" pref="287" max="-2" attributes="0"/>
+                          <Component id="jbtnCancelar" min="-2" pref="287" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -73,8 +73,8 @@
                   <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jButton1" max="32767" attributes="0"/>
-                      <Component id="jButton2" pref="58" max="32767" attributes="0"/>
+                      <Component id="jbtnMarcarAsistencia" max="32767" attributes="0"/>
+                      <Component id="jbtnCancelar" pref="58" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
@@ -138,7 +138,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel2" max="32767" attributes="0"/>
+                      <Component id="jlblReloj" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -147,17 +147,17 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel2" pref="97" max="32767" attributes="0"/>
+                      <Component id="jlblReloj" pref="97" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="jLabel2">
+            <Component class="javax.swing.JLabel" name="jlblReloj">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Leelawadee" size="48" style="1"/>
+                  <Font name="Leelawadee" size="60" style="1"/>
                 </Property>
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -168,7 +168,7 @@
             </Component>
           </SubComponents>
         </Container>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="jbtnMarcarAsistencia">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="ff" id="green" palette="1" red="0" type="palette"/>
@@ -181,8 +181,11 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Registrar Salida"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbtnMarcarAsistenciaActionPerformed"/>
+          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton2">
+        <Component class="javax.swing.JButton" name="jbtnCancelar">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="0" green="0" id="red" palette="1" red="ff" type="palette"/>
@@ -221,7 +224,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" min="-2" pref="55" max="-2" attributes="0"/>
+                      <Component id="jScrollPane1" min="-2" pref="64" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -239,7 +242,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="jTable1">
+                <Component class="javax.swing.JTable" name="jtblUsuarioLogin">
                   <Properties>
                     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                       <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -248,13 +251,13 @@
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="4" rowCount="1">
-                        <Column editable="true" title="CEDULA" type="java.lang.Object">
+                        <Column editable="true" title="CEDULASSSSS" type="java.lang.Object">
                           <Data value="1803459450"/>
                         </Column>
-                        <Column editable="true" title="TIPO REGISTRO" type="java.lang.Object">
+                        <Column editable="true" title="TIPO REGISTROSSSS" type="java.lang.Object">
                           <Data value="Salida"/>
                         </Column>
-                        <Column editable="true" title="ENTRADA JORNADA" type="java.lang.Object">
+                        <Column editable="true" title="ENTRADA JORNADASSS" type="java.lang.Object">
                           <Data value="14:00"/>
                         </Column>
                         <Column editable="true" title="SALIDA JORNADA" type="java.lang.Object">
