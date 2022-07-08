@@ -169,7 +169,7 @@ public class GestionUsuario extends javax.swing.JFrame {
             llenartabla("");
 
             if (n > 0) {
-                JOptionPane.showMessageDialog(null, "EL USUARIO " + (txt_cedula.getText()) + "\nCON CONTRASENIA " + (txt_contrasenia.getText()) + "\nFUE REGISTRADO CON EXITO");
+                JOptionPane.showMessageDialog(null, "Usuario Registrado Correctamente.");
             } else {
                 JOptionPane.showMessageDialog(null, "USUARIO NO REGISTRADO\nPUEDE QUE ALGUN DATO ESTE DUPLICADO");
             }
@@ -264,6 +264,7 @@ public class GestionUsuario extends javax.swing.JFrame {
         btn_nuevo = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         btn_cancelar = new javax.swing.JButton();
+        jbtnHorario = new javax.swing.JToggleButton();
         btn_regresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -441,7 +442,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                 btn_registrarActionPerformed(evt);
             }
         });
-        jPanel4.add(btn_registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 100, 30));
+        jPanel4.add(btn_registrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 100, 30));
 
         btn_actualizar.setBackground(new java.awt.Color(255, 255, 255));
         btn_actualizar.setText("ACTUALIZAR");
@@ -450,7 +451,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                 btn_actualizarActionPerformed(evt);
             }
         });
-        jPanel4.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, 100, 30));
+        jPanel4.add(btn_actualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 100, 30));
 
         btn_eliminar.setBackground(new java.awt.Color(255, 255, 255));
         btn_eliminar.setText("ELIMINAR");
@@ -459,7 +460,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                 btn_eliminarActionPerformed(evt);
             }
         });
-        jPanel4.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 80, 100, 30));
+        jPanel4.add(btn_eliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 80, 100, 30));
 
         btn_nuevo.setBackground(new java.awt.Color(255, 255, 255));
         btn_nuevo.setText("NUEVO");
@@ -468,7 +469,7 @@ public class GestionUsuario extends javax.swing.JFrame {
                 btn_nuevoActionPerformed(evt);
             }
         });
-        jPanel4.add(btn_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 30));
+        jPanel4.add(btn_nuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 100, 30));
 
         jLabel8.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(255, 255, 255));
@@ -481,12 +482,26 @@ public class GestionUsuario extends javax.swing.JFrame {
                 btn_cancelarActionPerformed(evt);
             }
         });
-        jPanel4.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 40, 100, 30));
+        jPanel4.add(btn_cancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 40, 100, 30));
 
-        btn_regresar.setText("REGRESAR");
-        jPanel4.add(btn_regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 120, 100, 30));
+        jbtnHorario.setBackground(new java.awt.Color(102, 0, 0));
+        jbtnHorario.setText("AGREGAR HORARIO");
+        jbtnHorario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnHorarioActionPerformed(evt);
+            }
+        });
+        jPanel4.add(jbtnHorario, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 120, 160, 40));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 440, 310, 170));
+
+        btn_regresar.setText("REGRESAR");
+        btn_regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_regresarActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 620, 100, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -602,6 +617,18 @@ public class GestionUsuario extends javax.swing.JFrame {
         bloquearTextos();
     }//GEN-LAST:event_btn_cancelarActionPerformed
 
+    private void btn_regresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_regresarActionPerformed
+         Login ventana = new Login();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_regresarActionPerformed
+
+    private void jbtnHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnHorarioActionPerformed
+        Horario ventana = new Horario();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jbtnHorarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -658,6 +685,7 @@ public class GestionUsuario extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jbtnHorario;
     private javax.swing.JTable tabla_usuarios;
     private javax.swing.JTextField txt_apellido;
     private javax.swing.JTextField txt_busqueda;

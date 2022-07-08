@@ -47,7 +47,7 @@ public class Horario extends javax.swing.JFrame {
         String usu = (cbx_auto.getSelectedItem().toString());
         try {
             String cap = "";
-            preparedStatement = reg.prepareStatement("SELECT * FROM docentes ");
+            preparedStatement = reg.prepareStatement("SELECT * FROM usuarios ");
             preparedStatement.setString(1, usu);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
@@ -60,12 +60,12 @@ public class Horario extends javax.swing.JFrame {
 
     void AUTO() {
         String sql;
-        sql = "SELECT ced_doc FROM docentes";
+        sql = "SELECT cedula FROM usuarios";
         try {
             preparedStatement = reg.prepareStatement(sql);
             resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                cbx_auto.addItem(resultSet.getString("ced_doc"));
+                cbx_auto.addItem(resultSet.getString("cedula"));
             }
         } catch (SQLException | HeadlessException ex) {
             System.out.println(ex);
@@ -76,12 +76,7 @@ public class Horario extends javax.swing.JFrame {
     void registrar_usuario() {
         int select = cbx_auto.getSelectedIndex();
         int select2 = cbx_acceso.getSelectedIndex();
-        if (jfHora.getText()==" : " || jfHora2.getText()==" : " || cbx_auto.getItemAt(select).isEmpty()
-                || cbx_auto.getItemAt(select2).isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Complete todos los campos");
-        } else {
 
-        }
         String sql = "INSERT INTO jornadas (ent_jor,sal_jor,doc_asi,acceso) VALUES(?,?,?,?)";
         try {
             PreparedStatement pst = reg.prepareCall(sql);
@@ -90,6 +85,8 @@ public class Horario extends javax.swing.JFrame {
             pst.setString(3, cbx_auto.getSelectedItem().toString());
             pst.setString(4, cbx_acceso.getSelectedItem().toString());
             int n = pst.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Se asigó el horario correctamente.");
         } catch (SQLException ex) {
             Logger.getLogger(GestionUsuario.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(null, "Error al insertar la jornada. Ingrese correctamente los datos");
@@ -124,6 +121,7 @@ public class Horario extends javax.swing.JFrame {
         jfHora = new javax.swing.JFormattedTextField();
         cbx_acceso = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -211,18 +209,18 @@ public class Horario extends javax.swing.JFrame {
         jPanel5.setForeground(new java.awt.Color(255, 255, 255));
 
         jbtnRegistrarHorario.setBackground(new java.awt.Color(181, 165, 165));
-        jbtnRegistrarHorario.setText("Registrar");
+        jbtnRegistrarHorario.setText("REGISTRAR");
         jbtnRegistrarHorario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbtnRegistrarHorarioActionPerformed(evt);
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Registrar Entrada");
 
-        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Registrar Salida");
 
@@ -252,9 +250,16 @@ public class Horario extends javax.swing.JFrame {
             }
         });
 
-        jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Yu Gothic UI", 1, 18)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Tipo de Registro:");
+
+        jButton2.setText("REGRESAR");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -263,28 +268,30 @@ public class Horario extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(jLabel5))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(FormatoHora, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jfHora, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jfHora2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(110, 110, 110)
-                        .addComponent(jLabel5))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(73, 73, 73)
-                        .addComponent(jLabel4))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(jLabel3)
-                        .addGap(171, 171, 171)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cbx_acceso, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(268, 268, 268)
-                        .addComponent(jbtnRegistrarHorario)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jfHora2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGap(134, 134, 134)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbx_acceso, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                                .addGap(164, 164, 164)
+                                .addComponent(jbtnRegistrarHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(150, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2)
+                .addGap(28, 28, 28))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -292,20 +299,24 @@ public class Horario extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6)
+                    .addComponent(jLabel6))
+                .addGap(8, 8, 8)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jfHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbx_acceso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(7, 7, 7)
-                .addComponent(jfHora, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
                 .addComponent(FormatoHora)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel4)
-                .addGap(10, 10, 10)
-                .addComponent(jfHora2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jbtnRegistrarHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jfHora2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(19, 19, 19)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(jbtnRegistrarHorario)
+                .addComponent(jButton2)
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -322,7 +333,7 @@ public class Horario extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(121, 121, 121)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(343, Short.MAX_VALUE))
+                .addContainerGap(159, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,36 +351,39 @@ public class Horario extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbtnRegistrarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRegistrarHorarioActionPerformed
-        registrar_usuario();
-
-    }//GEN-LAST:event_jbtnRegistrarHorarioActionPerformed
-
     private void cbx_autoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_autoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cbx_autoActionPerformed
+
+    private void cbx_accesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_accesoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbx_accesoActionPerformed
 
     private void jfHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jfHoraActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jfHoraActionPerformed
 
-    private void cbx_accesoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbx_accesoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cbx_accesoActionPerformed
+    private void jbtnRegistrarHorarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnRegistrarHorarioActionPerformed
+        registrar_usuario();
+    }//GEN-LAST:event_jbtnRegistrarHorarioActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        GestionUsuario ventana = new GestionUsuario();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -414,6 +428,7 @@ public class Horario extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cbx_acceso;
     private javax.swing.JComboBox<String> cbx_auto;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

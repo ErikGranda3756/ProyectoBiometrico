@@ -25,10 +25,11 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
     }
+    static String usuario;
 
     public void validarUsuario() {
         Conexion c = new Conexion();
-        String usuario = jtxtUsuario.getText();
+        usuario = jtxtUsuario.getText();
         String contraseña = jtxtContraseña.getText();
         if (usuario.equals("") && contraseña.equals("")) {
             JOptionPane.showMessageDialog(null, "Por favor digite sus credenciales");

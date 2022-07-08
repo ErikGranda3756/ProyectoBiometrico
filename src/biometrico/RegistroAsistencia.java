@@ -34,10 +34,10 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
     DefaultTableModel modeloPicada;
     DefaultTableCellRenderer tcr;
 
-    String hora, ampm, horac,horaSis,fechaSis;
+    String hora, ampm, horac, horaSis, fechaSis;
     Thread hilo;
     Calendar calendario;
-    Date fechahora,fecha,horaMax;
+    Date fechahora, fecha, horaMax;
     Conexion con = new Conexion();
     Connection reg = con.conexion();
 
@@ -124,15 +124,15 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
     private void calcula() {
         Calendar calendario = Calendar.getInstance();
         fechahora = calendario.getTime();
-        fecha =calendario.getTime();
+        fecha = calendario.getTime();
         SimpleDateFormat forhora = new SimpleDateFormat("HH:mm:ss");
         //SimpleDateFormat forfecha = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat forfecha = new SimpleDateFormat("dd-MM-yyyy");
-        
+
         calendario.setTime(fechahora);
         calendario.setTime(fecha);
-        fechaSis=forfecha.format(fecha);
-        horaSis=forhora.format(fechahora);
+        fechaSis = forfecha.format(fecha);
+        horaSis = forhora.format(fechahora);
     }
 
 //    public Date generarHora(String min) {
@@ -148,14 +148,14 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
 //    }
     public void llenartablaInfoDocente() {
         String sql = "";
-        sql = "SELECT d.ced_doc,j.ent_jor,j.sal_jor from docentes as d,jornadas as j where j.doc_asi=" + Docente.cedula;
+        sql = "SELECT d.cedula,j.ent_jor,j.sal_jor from usuarios as d,jornadas as j where j.doc_asi=" + Login.usuario;
         String[] datos = new String[4];
         try {
             Statement st = reg.createStatement();
             ResultSet rs = st.executeQuery(sql);
 
             while (rs.next()) {
-                datos[0] = rs.getString("d.ced_doc");
+                datos[0] = rs.getString("d.cedula");
                 datos[2] = rs.getString("j.ent_jor");
                 datos[3] = rs.getString("j.sal_jor");
                 modelo.addRow(datos);
@@ -165,9 +165,10 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+
     public void llenartablaRegistrosPicados() {
         String sql = "";
-        sql = "SELECT * FROM `asistencias` WHERE id_jor_asi LIKE"+"'"+ Docente.cedula+"'";
+        sql = "SELECT * FROM `asistencias` WHERE id_jor_asi LIKE" + "'" + Login.usuario + "'";
         String[] datos = new String[5];
         try {
             Statement st = reg.createStatement();
@@ -185,7 +186,8 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
-    public void registrarAsistencia(String hora,String fecha) {
+
+    public void registrarAsistencia(String hora, String fecha) {
 
         try {
             Conexion c1 = new Conexion();
@@ -195,8 +197,8 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
             pst.setString(1, "Sin Registrar");
             pst.setString(2, hora);
             pst.setString(3, fecha);
-            pst.setString(4, Docente.cedula);
-            
+            pst.setString(4, Login.usuario);
+
             int n = pst.executeUpdate();
             //tabla("");
 
@@ -409,7 +411,7 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
 
     private void jbtnMarcarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMarcarAsistenciaActionPerformed
         // TODO add your handling code here:
-        registrarAsistencia(horaSis,fechaSis);
+        registrarAsistencia(horaSis, fechaSis);
         llenartablaRegistrosPicados();
     }//GEN-LAST:event_jbtnMarcarAsistenciaActionPerformed
 
