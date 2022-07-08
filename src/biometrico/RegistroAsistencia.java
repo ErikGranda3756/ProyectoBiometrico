@@ -50,6 +50,7 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         cargarTabla();
         cargarTablaPicada();
         llenartablaInfoDocente();
+        desbloquearBotonRegistro();
         //activarBotones();
 //verificarHorario();
 
@@ -121,6 +122,17 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         }
     }
 
+    public void bloquearBotonRegistro() {
+        jbtnMarcarAsistencia.setEnabled(false);
+
+    }
+
+    public void desbloquearBotonRegistro() {
+
+        jbtnMarcarAsistencia.setEnabled(true);
+
+    }
+
     private void calcula() {
         Calendar calendario = Calendar.getInstance();
         fechahora = calendario.getTime();
@@ -133,6 +145,24 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         calendario.setTime(fecha);
         fechaSis = forfecha.format(fecha);
         horaSis = forhora.format(fechahora);
+
+        Calendar calendar = Calendar.getInstance();
+
+        int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+        int minutefDay = calendar.get(Calendar.MINUTE);
+
+        if ((hourOfDay == 6 && minutefDay >= 50) || (hourOfDay == 7 && minutefDay <= 15)) {
+
+        } else if ((hourOfDay == 12 && minutefDay >= 55) || (hourOfDay == 13 && (minutefDay <= 10 || minutefDay >= 50))) {
+
+        } else if ((hourOfDay == 14 && minutefDay <= 15)) {
+
+        } else if ((hourOfDay == 19 && minutefDay >= 55) || (hourOfDay == 20 && minutefDay <= 10)) {
+
+        } else {
+            bloquearBotonRegistro();
+
+        }
     }
 
 //    public Date generarHora(String min) {
@@ -198,6 +228,7 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
             pst.setString(2, hora);
             pst.setString(3, fecha);
             pst.setString(4, Login.usuario);
+            bloquearBotonRegistro();
 
             int n = pst.executeUpdate();
             //tabla("");
