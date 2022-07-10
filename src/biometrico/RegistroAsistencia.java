@@ -6,6 +6,7 @@
 package biometrico;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -30,11 +31,13 @@ import javax.swing.table.TableCellRenderer;
 public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
 
     DefaultTableModel modelo;
+    DefaultTableModel modeloPicada;
     DefaultTableCellRenderer tcr;
-    String hora, ampm, fecha, horac;
+
+    String hora, ampm, horac,horaSis,fechaSis;
     Thread hilo;
     Calendar calendario;
-    Date fechahora, horaMax;
+    Date fechahora,fecha,horaMax;
     Conexion con = new Conexion();
     Connection reg = con.conexion();
 
@@ -45,6 +48,7 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         initComponents();
         empezarHilo();
         cargarTabla();
+        cargarTablaPicada();
         llenartablaInfoDocente();
         //activarBotones();
 //verificarHorario();
@@ -77,6 +81,24 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         jtblUsuarioLogin.getColumnModel().getColumn(3).setCellRenderer(tcr);
     }
 
+    public void cargarTablaPicada() {
+        tcr = new DefaultTableCellRenderer();
+        modeloPicada = new DefaultTableModel();
+        modeloPicada.addColumn("NR°");
+        modeloPicada.addColumn("TIPO REGISTRO");
+        modeloPicada.addColumn("HORA REGISTRO(PICADA)");
+        modeloPicada.addColumn("FECHA");
+        TableCellRenderer rendererFromHeader = jtblTablaPicada.getTableHeader().getDefaultRenderer();
+        JLabel headerLabel = (JLabel) rendererFromHeader;
+        headerLabel.setHorizontalAlignment(JLabel.CENTER);
+        jtblTablaPicada.setModel(modeloPicada);
+        tcr.setHorizontalAlignment(SwingConstants.CENTER);
+        jtblTablaPicada.getColumnModel().getColumn(0).setCellRenderer(tcr);
+        jtblTablaPicada.getColumnModel().getColumn(1).setCellRenderer(tcr);
+        jtblTablaPicada.getColumnModel().getColumn(2).setCellRenderer(tcr);
+        jtblTablaPicada.getColumnModel().getColumn(3).setCellRenderer(tcr);
+    }
+
     public void empezarHilo() {
         hilo = new Thread(this);
         hilo.start();
@@ -89,8 +111,8 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         while (ct == hilo) {
             calcula();
             //jlblReloj.setText(hora + " " + ampm);
-            jlblReloj.setText(hora);
-            horac = hora;
+            jlblReloj.setText(horaSis);
+            horac = horaSis;
             try {
                 Thread.sleep(100);
             } catch (Exception e) {
@@ -102,10 +124,15 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
     private void calcula() {
         Calendar calendario = Calendar.getInstance();
         fechahora = calendario.getTime();
-        SimpleDateFormat forhora = new SimpleDateFormat("HH  :  mm  :  ss");
+        fecha =calendario.getTime();
+        SimpleDateFormat forhora = new SimpleDateFormat("HH:mm:ss");
+        //SimpleDateFormat forfecha = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat forfecha = new SimpleDateFormat("dd-MM-yyyy");
+        
         calendario.setTime(fechahora);
-        //ampm = calendario.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
-        hora = forhora.format(fechahora);
+        calendario.setTime(fecha);
+        fechaSis=forfecha.format(fecha);
+        horaSis=forhora.format(fechahora);
     }
 
 //    public Date generarHora(String min) {
@@ -138,6 +165,49 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
             JOptionPane.showMessageDialog(null, ex);
         }
     }
+    public void llenartablaRegistrosPicados() {
+        String sql = "";
+        sql = "SELECT * FROM `asistencias` WHERE id_jor_asi LIKE"+"'"+ Docente.cedula+"'";
+        String[] datos = new String[5];
+        try {
+            Statement st = reg.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+                datos[0] = rs.getString("n");
+                datos[1] = rs.getString("tipo_reg");
+                datos[2] = rs.getString("hora_reg");
+                datos[3] = rs.getString("fecha_reg");
+                modeloPicada.addRow(datos);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+    }
+    public void registrarAsistencia(String hora,String fecha) {
+
+        try {
+            Conexion c1 = new Conexion();
+            Connection con = c1.conexion();
+            String sql = "INSERT INTO `asistencias`(`tipo_reg`,`hora_reg`,`fecha_reg`,`id_jor_asi`) VALUES (? , ?, ?, ?)";
+            PreparedStatement pst = reg.prepareCall(sql);
+            pst.setString(1, "Sin Registrar");
+            pst.setString(2, hora);
+            pst.setString(3, fecha);
+            pst.setString(4, Docente.cedula);
+            
+            int n = pst.executeUpdate();
+            //tabla("");
+
+            if (n > 0) {
+                JOptionPane.showMessageDialog(null, "Asistencia Registrada");
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex);
+        }
+
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -160,7 +230,7 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         jtblUsuarioLogin = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        jtblTablaPicada = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -224,6 +294,11 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         jbtnCancelar.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jbtnCancelar.setForeground(new java.awt.Color(255, 255, 255));
         jbtnCancelar.setText("Cancelar");
+        jbtnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbtnCancelarActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -245,7 +320,7 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
         jLabel3.setText("Jornadas Pendientes");
         jLabel3.setOpaque(true);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jtblTablaPicada.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -253,10 +328,10 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "NRSSSS", "TIPO REGISTROSSS", "HORA REGISTROS", "FECHASSSS"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(jtblTablaPicada);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -334,8 +409,14 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
 
     private void jbtnMarcarAsistenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnMarcarAsistenciaActionPerformed
         // TODO add your handling code here:
-
+        registrarAsistencia(horaSis,fechaSis);
+        llenartablaRegistrosPicados();
     }//GEN-LAST:event_jbtnMarcarAsistenciaActionPerformed
+
+    private void jbtnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbtnCancelarActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+    }//GEN-LAST:event_jbtnCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -389,10 +470,10 @@ public class RegistroAsistencia extends javax.swing.JFrame implements Runnable {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JButton jbtnCancelar;
     private javax.swing.JButton jbtnMarcarAsistencia;
     private javax.swing.JLabel jlblReloj;
+    private javax.swing.JTable jtblTablaPicada;
     private javax.swing.JTable jtblUsuarioLogin;
     // End of variables declaration//GEN-END:variables
 }
